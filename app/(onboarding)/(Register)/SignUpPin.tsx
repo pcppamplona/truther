@@ -4,36 +4,41 @@ import styled from "styled-components/native";
 import CustomAppBar from "@/components/CustomAppBar";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { router } from "expo-router";
+import { useSignUpContext } from "@/contexts/SignUpContext";
 
 export default function SignUpPin() {
-    const [pin, setPin] = useState(["", "", "", ""]);
-    const inputRefs = useRef<TextInput[]>([]);
+  const { updateUserData, saveToStorage } = useSignUpContext();
   
-    const handleChange = (text: string, index: number) => {
-      if (!/^\d?$/.test(text)) return; 
+  const [pin, setPin] = useState(["", "", "", ""]);
+  const inputRefs = useRef<TextInput[]>([]);
+
+  const handleChange = (text: string, index: number) => {
+    if (!/^\d?$/.test(text)) return;
+
+    const newPin = [...pin];
+    newPin[index] = text;
+    setPin(newPin);
+
+    if (text && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+    }
+
+    if (newPin.every((digit) => digit !== "")) {
+      handleSubmitPin(newPin.join(""));
+    }
+  };
+
+  const handleSubmitPin = (pin: string) => {
+    updateUserData({ pin });
+    saveToStorage();
+    router.replace("/(onboarding)/(SignIn)/SignInHome");
+  };
   
-      const newPin = [...pin];
-      newPin[index] = text;
-      setPin(newPin);
-  
-      if (text && index < 3) {
-        inputRefs.current[index + 1]?.focus();
-      }
-  
-      if (newPin.every((digit) => digit !== "")) {
-        handleSubmitPin(newPin.join(""));
-      }
-    };
-  
-    const handleSubmitPin = (pin: string) => {
-      console.log("PIN criado:", pin);
-    };
-  
-    const handleReset = () => {
-      setPin(["", "", "", ""]);
-      inputRefs.current[0]?.focus(); // Focar no primeiro campo após o reset
-    };
-  
+
+  const handleReset = () => {
+    setPin(["", "", "", ""]);
+    inputRefs.current[0]?.focus(); 
+  };
 
   return (
     <ContentContainer>
@@ -60,12 +65,10 @@ export default function SignUpPin() {
 
       <ViewButtons>
         <ButtonsContainer marginTop={10}>
-          <ButtonPrimary label="Set up Pin" />
-          <ButtomSign
-            onPress={() =>
-              router.push("/(onboarding)/(SignIn)/SignInHome")
-            }
-          ></ButtomSign>
+          <ButtonPrimary
+            label="Set up Pin"
+            toggle={() => handleSubmitPin(pin.join(""))}
+          />
         </ButtonsContainer>
       </ViewButtons>
     </ContentContainer>

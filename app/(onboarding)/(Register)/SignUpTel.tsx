@@ -5,8 +5,11 @@ import styled from "styled-components/native";
 import useCountries, { Country } from "@/hooks/useCountries";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { router } from "expo-router";
+import { useSignUpContext } from "@/contexts/SignUpContext";
 
 export default function SignUpTel() {
+  const { updateUserData } = useSignUpContext();
+
   const { countries, loading, error } = useCountries();
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -23,6 +26,16 @@ export default function SignUpTel() {
       (country) => country.name.common === itemValue
     );
     setSelectedCountry(selected || null);
+  };
+
+  const handleNext = () => {
+    updateUserData({ phoneNumber });
+    router.navigate({
+      pathname: "/(onboarding)/(Register)/SignUpDigit",
+      params: {
+        tel: phoneNumber,
+      },
+    });
   };
 
   return (
@@ -75,17 +88,7 @@ export default function SignUpTel() {
           </PhoneInputContainer>
         )}
 
-        <ButtonPrimary
-          label="Send Code"
-          toggle={() =>
-            router.navigate({
-              pathname: "/(onboarding)/(Register)/SignUpDigit",
-              params: {
-                tel: phoneNumber,
-              },
-            })
-          }
-        />
+        <ButtonPrimary label="Send Code" toggle={handleNext} />
 
         <TouchableOpacity onPress={() => router.navigate("/")}>
           <Container>

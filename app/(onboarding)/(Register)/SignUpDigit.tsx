@@ -1,7 +1,7 @@
 import CustomAppBar from "@/components/CustomAppBar";
 import { router, useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import { Alert, TextInput } from "react-native";
+import { TextInput } from "react-native";
 import styled from "styled-components/native";
 export default function SignUpDigit() {
   const { tel } = useLocalSearchParams();

@@ -4,8 +4,14 @@ import styled from "styled-components/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ButtonSecondary from "@/components/ButtonSecondary";
 import { router } from "expo-router";
+import { useSignUpContext } from "@/contexts/SignUpContext";
 
 export default function SignUpPersonal() {
+  const { updateUserData } = useSignUpContext();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
 
@@ -15,14 +21,16 @@ export default function SignUpPersonal() {
     setShowStartDatePicker(false);
   };
 
-  // Format the date to a readable string (e.g., "March 8, 2025")
   const formattedDate = startDate
     ? startDate.toLocaleDateString()
     : "Date of birth ( MM / DD / YYYY )";
 
-  // Check if the formatted date is the placeholder text
   const isPlaceholder = formattedDate === "Date of birth ( MM / DD / YYYY )";
 
+  const handleNext = () => {
+    updateUserData({ firstName, lastName, password, birthDate: startDate });
+    router.navigate("/(onboarding)/(Register)/SignUpHome");
+  };
   return (
     <ContentContainer>
       <CustomAppBar />
@@ -31,8 +39,16 @@ export default function SignUpPersonal() {
       <Subtitle>
         We ask for your personal information to verify your identity
       </Subtitle>
-      <Input placeholder="First Name" />
-      <Input placeholder="Last Name" />
+      <Input
+        placeholder="First Name"
+        value={firstName}
+        onChangeText={setFirstName}
+      />
+      <Input
+        placeholder="Last Name"
+        value={lastName}
+        onChangeText={setLastName}
+      />
 
       {showStartDatePicker && (
         <DateTimePicker
@@ -47,7 +63,11 @@ export default function SignUpPersonal() {
         <DateText isPlaceholder={isPlaceholder}>{formattedDate}</DateText>
       </DataTimeInput>
 
-      <Input placeholder="Password" />
+      <Input
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+      />
 
       <Container>
         <ButtonSecondary
@@ -55,7 +75,7 @@ export default function SignUpPersonal() {
             type: "AntDesign",
             name: "right",
           }}
-          toggle={() => router.navigate("/(onboarding)/(Register)/SignUpHome")}
+          toggle={handleNext}
         />
       </Container>
     </ContentContainer>
@@ -110,7 +130,6 @@ const DataTimeInput = styled.TouchableOpacity`
   align-items: flex-start;
 `;
 
-
 const DateText = styled.Text<{ isPlaceholder: boolean }>`
   font-weight: bold;
   font-size: 16px;
@@ -125,4 +144,3 @@ const Container = styled.View`
   justify-content: flex-end;
   margin-top: 20px;
 `;
-

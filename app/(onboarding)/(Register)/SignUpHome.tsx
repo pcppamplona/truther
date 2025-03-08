@@ -5,8 +5,11 @@ import ButtonSecondary from "@/components/ButtonSecondary";
 import { ActivityIndicator } from "react-native";
 import { getAddressByCep } from "@/hooks/useViaCep";
 import { router } from "expo-router";
+import { useSignUpContext } from "@/contexts/SignUpContext";
 
 export default function SignUpHome() {
+  const { updateUserData } = useSignUpContext();
+
   const [cep, setCep] = useState("");
   const [logradouro, setLogradouro] = useState("");
   const [bairro, setBairro] = useState("");
@@ -37,6 +40,13 @@ export default function SignUpHome() {
         setLoading(false); // Finalizar o carregamento
       }
     }
+  };
+
+  const handleNext = () => {
+    updateUserData({
+      address: { cep, street: logradouro, neighborhood: bairro, city: localidade, state: estado },
+    });
+    router.navigate("/(onboarding)/(Register)/SignUpPin");
   };
 
   return (
@@ -101,7 +111,7 @@ export default function SignUpHome() {
             type: "AntDesign",
             name: "right",
           }}
-          toggle={() => router.navigate("/(onboarding)/(Register)/SignUpPin")}
+          toggle={handleNext}
         />
       </Container>
     </ContentContainer>

@@ -1,14 +1,29 @@
-import CustomAppBar from "@/components/CustomAppBar";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/native";
 import ButtonSecondary from "@/components/ButtonSecondary";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignInHome() {
+  useEffect(() => {
+    const checkStorage = async () => {
+      try {
+        const keys = await AsyncStorage.getAllKeys();
+        const items = await AsyncStorage.multiGet(keys);
+
+        console.log("📦 Itens no AsyncStorage:");
+        items.forEach(([key, value]) => {
+          console.log(`${key}: ${value}`);
+        });
+      } catch (error) {
+        console.error("Erro ao acessar o AsyncStorage:", error);
+      }
+    };
+
+    checkStorage();
+  }, []);
   return (
     <ContentContainer>
-      <CustomAppBar />
-
       <Title>Welcome back</Title>
       <Subtitle>Sign in to your account</Subtitle>
 
@@ -41,6 +56,7 @@ const Title = styled.Text`
   font-weight: 700;
   margin-bottom: 15px;
   color: #333;
+  margin-top: 60px;
 `;
 
 const Subtitle = styled.Text`
