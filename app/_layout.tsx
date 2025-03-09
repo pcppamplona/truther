@@ -12,6 +12,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { UserRegistrationProvider } from "@/contexts/SignUpContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,8 +35,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <UserRegistrationProvider>
-        <Stack screenOptions={{ headerShown: false }} />
-        <StatusBar style="dark" translucent backgroundColor="transparent" />
+        <AuthProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+          <StatusBar style="dark" translucent backgroundColor="transparent" />
+        </AuthProvider>
       </UserRegistrationProvider>
     </ThemeProvider>
   );

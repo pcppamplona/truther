@@ -3,7 +3,6 @@ import { TextInput } from "react-native";
 import styled from "styled-components/native";
 import CustomAppBar from "@/components/CustomAppBar";
 import ButtonPrimary from "@/components/ButtonPrimary";
-import { router } from "expo-router";
 import { useSignUpContext } from "@/contexts/SignUpContext";
 
 export default function SignUpPin() {
@@ -31,7 +30,6 @@ export default function SignUpPin() {
   const handleSubmitPin = (pin: string) => {
     updateUserData({ pin });
     saveToStorage();
-    router.replace("/(onboarding)/(SignIn)/SignInHome");
   };
   
 

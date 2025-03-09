@@ -14,7 +14,7 @@ interface UserRegistrationData {
     city?: string;
     state?: string;
   };
-  pin?: string;
+  pin?: string | number;
 }
 
 interface UserRegistrationContextProps {

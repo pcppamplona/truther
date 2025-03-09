@@ -1,30 +1,13 @@
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import styled from "styled-components/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Dashboard() {
-  useEffect(() => {
-    const checkStorage = async () => {
-      try {
-        const keys = await AsyncStorage.getAllKeys();
-        const items = await AsyncStorage.multiGet(keys);
-
-        console.log("📦 Itens no AsyncStorage:");
-        items.forEach(([key, value]) => {
-          console.log(`${key}: ${value}`);
-        });
-      } catch (error) {
-        console.error("Erro ao acessar o AsyncStorage:", error);
-      }
-    };
-
-    checkStorage();
-  }, []);
-
+const { userData } = useAuthContext()
   return (
     <StyledScrollView>
       <ContentContainer>
-        <Title>Track Crypto Prices</Title>
+        <Title>Welcome, {userData?.firstName}</Title>
       </ContentContainer>
     </StyledScrollView>
   );
