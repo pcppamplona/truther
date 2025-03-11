@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-interface UserRegistrationData {
+export interface UserRegistrationData {
+  id?: string;
   phoneNumber?: string;
   firstName?: string;
   lastName?: string;

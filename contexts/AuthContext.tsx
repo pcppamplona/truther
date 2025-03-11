@@ -1,27 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-
-interface Address {
-  cep: string;
-  street: string;
-  neighborhood: string;
-  city: string;
-  state: string;
-}
-
-interface UserRegistration {
-  phoneNumber: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  birthDate: string;
-  address: Address;
-}
+import { UserRegistrationData } from "./SignUpContext";
 
 interface AuthContextData {
   signIn: (firstName: string, password: string) => Promise<void>;
-  userData: UserRegistration | null;
+  userData: UserRegistrationData | null;
 }
 
 export const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -29,10 +13,10 @@ export const AuthContext = createContext<AuthContextData | undefined>(undefined)
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userData, setUserData] = useState<UserRegistration | null>(null);
+  const [userData, setUserData] = useState<UserRegistrationData | null>(null);
 
   // Função para salvar as informações do usuário no AsyncStorage
-  const saveUserData = async (user: UserRegistration) => {
+  const saveUserData = async (user: UserRegistrationData) => {
     try {
       await AsyncStorage.setItem("user_registration", JSON.stringify(user));
       setUserData(user);  // Atualiza o estado global com as informações do usuário

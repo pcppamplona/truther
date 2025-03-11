@@ -17,8 +17,7 @@ export default function Login({}) {
 
       <ViewButtons>
         <ButtonsContainer marginTop={10}>
-          <ButtonPrimary label="Get Started" toggle={() => router.navigate("/(onboarding)/(Register)/SignUpTel")}/>
-          {/* <ButtomSign onPress={() => router.navigate("/(onboarding)/(SignIn)/SignInHome")}> */}
+          <ButtonPrimary label="Get Started" toggle={() => router.navigate("/(onboarding)/(Welcome)/WelcomeScreen")}/>
           <ButtomSign onPress={() => router.navigate("/(onboarding)/(SignIn)/SignInHome")}>
 
             <ButtonText>Sign In</ButtonText>
