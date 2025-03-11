@@ -18,18 +18,16 @@ export default function SignUpDigit() {
   const inputRefs = useRef<TextInput[]>([]);
 
   const handleChange = (text: string, index: number) => {
-    if (!/^\d?$/.test(text)) return; // Permite apenas números
+    if (!/^\d?$/.test(text)) return;
 
     const newCode = [...code];
     newCode[index] = text;
     setCode(newCode);
 
-    // Move o foco para o próximo campo
     if (text && index < 3) {
       inputRefs.current[index + 1]?.focus();
     }
 
-    // Verifica se todos os campos foram preenchidos
     if (newCode.every((digit) => digit !== "")) {
       validateCode(newCode.join(""));
     }

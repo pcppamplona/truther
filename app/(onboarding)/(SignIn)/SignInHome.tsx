@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "@/contexts/AuthContext"; 
+import { useAuthContext } from "@/contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ButtonSecondary from "@/components/ButtonSecondary";
 import {
   ContentContainer,
   Title,
   Subtitle,
-  Input,
   Container,
 } from "./../../../styles/OnboardingStyles/SignInStyles/SignInHomeStyles";
+import { Input } from "@/components/InputPrimary";
+import { useForm, Controller } from "react-hook-form";
+import { ErrorText } from "@/styles/OnboardingStyles/RegisterStyles/SignUpTel";
+
 export default function SignInHome() {
   const { signIn } = useAuthContext();
-  const [firstName, setFirstName] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignIn = async () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const handleSignIn = async (data: any) => {
     setLoading(true);
     try {
-      await signIn(firstName, password);
+      await signIn(data.firstName, data.password);
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
@@ -49,17 +56,40 @@ export default function SignInHome() {
       <Title>Welcome back</Title>
       <Subtitle>Sign in to your account</Subtitle>
 
-      <Input
-        placeholder="User Name"
-        value={firstName}
-        onChangeText={setFirstName}
+      {/* User Name Input */}
+      <Controller
+        control={control}
+        name="firstName"
+        rules={{ required: "User Name is required" }}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            value={value}
+            onChangeText={onChange}
+            placeholder="User Name"
+          />
+        )}
       />
-      <Input
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+      {errors.firstName && typeof errors.firstName.message === "string" && (
+        <ErrorText>{errors.firstName.message}</ErrorText>
+      )}
+
+      {/* Password Input */}
+      <Controller
+        control={control}
+        name="password"
+        rules={{ required: "Password is required" }}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            value={value}
+            onChangeText={onChange}
+            placeholder="Password"
+            secureTextEntry
+          />
+        )}
       />
+      {errors.password && typeof errors.password.message === "string" && (
+        <ErrorText>{errors.password.message}</ErrorText>
+      )}
 
       <Container>
         <ButtonSecondary
@@ -67,7 +97,7 @@ export default function SignInHome() {
             type: "AntDesign",
             name: "right",
           }}
-          toggle={handleSignIn}
+          toggle={handleSubmit(handleSignIn)}
         />
       </Container>
     </ContentContainer>

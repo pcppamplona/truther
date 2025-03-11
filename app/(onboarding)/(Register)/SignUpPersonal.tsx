@@ -4,15 +4,17 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import ButtonSecondary from "@/components/ButtonSecondary";
 import { router } from "expo-router";
 import { useSignUpContext } from "@/contexts/SignUpContext";
+import { useForm, Controller } from "react-hook-form";
+import { Input } from "@/components/InputPrimary";
 import {
   ContentContainer,
   Title,
   Subtitle,
-  Input,
   Container,
   DataTimeInput,
   DateText,
 } from "././../../../styles/OnboardingStyles/RegisterStyles/SignUpPersonal";
+import { ErrorText } from "@/styles/OnboardingStyles/RegisterStyles/SignUpTel";
 
 export default function SignUpPersonal() {
   const { updateUserData } = useSignUpContext();
@@ -35,10 +37,16 @@ export default function SignUpPersonal() {
 
   const isPlaceholder = formattedDate === "Date of birth ( MM / DD / YYYY )";
 
-  const handleNext = () => {
+  const onSubmit = (data: any) => {
     updateUserData({ firstName, lastName, password, birthDate: startDate });
     router.navigate("/(onboarding)/(Register)/SignUpHome");
   };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   return (
     <ContentContainer>
@@ -48,16 +56,39 @@ export default function SignUpPersonal() {
       <Subtitle>
         We ask for your personal information to verify your identity
       </Subtitle>
-      <Input
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
+    
+      <Controller
+        control={control}
+        name="firstName"
+        rules={{ required: "First Name is required" }}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            value={value}
+            onChangeText={onChange}
+            placeholder="First Name"
+          />
+        )}
       />
-      <Input
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
+      {errors.firstName && typeof errors.firstName.message === "string" && (
+        <ErrorText>{errors.firstName.message}</ErrorText>
+      )}
+
+    
+      <Controller
+        control={control}
+        name="lastName"
+        rules={{ required: "Last Name is required" }}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            value={value}
+            onChangeText={onChange}
+            placeholder="Last Name"
+          />
+        )}
       />
+      {errors.lastName && typeof errors.lastName.message === "string" && (
+        <ErrorText>{errors.lastName.message}</ErrorText>
+      )}
 
       {showStartDatePicker && (
         <DateTimePicker
@@ -72,11 +103,21 @@ export default function SignUpPersonal() {
         <DateText isPlaceholder={isPlaceholder}>{formattedDate}</DateText>
       </DataTimeInput>
 
-      <Input
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
+      <Controller
+        control={control}
+        name="Password"
+        rules={{ required: "Password is required" }}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            value={value}
+            onChangeText={onChange}
+            placeholder="Password"
+          />
+        )}
       />
+      {errors.Password && typeof errors.Password.message === "string" && (
+        <ErrorText>{errors.Password.message}</ErrorText>
+      )}
 
       <Container>
         <ButtonSecondary
@@ -84,7 +125,7 @@ export default function SignUpPersonal() {
             type: "AntDesign",
             name: "right",
           }}
-          toggle={handleNext}
+          toggle={handleSubmit(onSubmit)}
         />
       </Container>
     </ContentContainer>

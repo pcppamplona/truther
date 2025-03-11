@@ -14,6 +14,7 @@ export interface UserRegistrationData {
     neighborhood?: string;
     city?: string;
     state?: string;
+    number?: string;
   };
   pin?: string | number;
 }

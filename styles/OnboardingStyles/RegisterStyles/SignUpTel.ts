@@ -63,7 +63,7 @@ export const PhoneInputContainer = styled.View`
   width: 100%;
   margin-top: 20px;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 // Contêiner para o link de login
@@ -111,4 +111,11 @@ export const TermsContainer = styled.View`
   width: 80%;
   align-items: center;
   justify-content: center;
+`;
+
+export const ErrorText = styled.Text`
+  color: red;
+  text-align: right;
+  align-self: flex-end;
+  margin-bottom: 20px;
 `;

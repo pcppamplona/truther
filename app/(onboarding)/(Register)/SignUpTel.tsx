@@ -5,20 +5,22 @@ import useCountries, { Country } from "@/hooks/useCountries";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { router } from "expo-router";
 import { useSignUpContext } from "@/contexts/SignUpContext";
+import { useForm, Controller } from "react-hook-form";
 import {
   StyledScrollView,
   ContentContainer,
   Title,
   SelectContainer,
   CountryFlag,
-  Input,
   PhoneInputContainer,
   Container,
   TextStyled,
   TextLinkStyled,
   TextContent,
   TermsContainer,
+  ErrorText,
 } from "./../../../styles/OnboardingStyles/RegisterStyles/SignUpTel";
+import { Input } from "@/components/InputPrimary";
 
 export default function SignUpTel() {
   const { updateUserData } = useSignUpContext();
@@ -27,7 +29,12 @@ export default function SignUpTel() {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  // Set the default country if no country is selected
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   useEffect(() => {
     if (countries.length > 0 && !selectedCountry) {
       setSelectedCountry(countries[0]);
@@ -41,13 +48,11 @@ export default function SignUpTel() {
     setSelectedCountry(selected || null);
   };
 
-  const handleNext = () => {
-    updateUserData({ phoneNumber });
+  const onSubmit = (data: any) => {
+    updateUserData({ phoneNumber: data.phoneNumber });
     router.navigate({
       pathname: "/(onboarding)/(Register)/SignUpDigit",
-      params: {
-        tel: phoneNumber,
-      },
+      params: { tel: data.phoneNumber },
     });
   };
 
@@ -91,17 +96,28 @@ export default function SignUpTel() {
               style={{ flex: 1, marginRight: 10 }}
             />
 
-            <Input
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              placeholder="0 0000-0000"
-              style={{ flex: 2 }}
-              keyboardType="number-pad"
+            <Controller
+              control={control}
+              name="phoneNumber"
+              rules={{ required: "Phone number is required" }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="0 0000-0000"
+                  style={{ flex: 2 }}
+                  keyboardType="number-pad"
+                />
+              )}
             />
           </PhoneInputContainer>
         )}
+        {errors.phoneNumber &&
+          typeof errors.phoneNumber.message === "string" && (
+            <ErrorText>{errors.phoneNumber.message}</ErrorText>
+          )}
 
-        <ButtonPrimary label="Send Code" toggle={handleNext} />
+        <ButtonPrimary label="Send Code" toggle={handleSubmit(onSubmit)} />
 
         <TouchableOpacity onPress={() => router.navigate("/")}>
           <Container>
