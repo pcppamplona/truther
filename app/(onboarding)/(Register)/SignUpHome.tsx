@@ -1,11 +1,17 @@
 import CustomAppBar from "@/components/CustomAppBar";
 import React, { useState } from "react";
-import styled from "styled-components/native";
-import ButtonSecondary from "@/components/ButtonSecondary";
 import { ActivityIndicator } from "react-native";
 import { getAddressByCep } from "@/hooks/useViaCep";
 import { router } from "expo-router";
 import { useSignUpContext } from "@/contexts/SignUpContext";
+import {
+  ContentContainer,
+  Title,
+  Subtitle,
+  Input,
+  Container,
+} from "././../../../styles/OnboardingStyles/RegisterStyles/SignUpHome";
+import ButtonSecondary from "@/components/ButtonSecondary";
 
 export default function SignUpHome() {
   const { updateUserData } = useSignUpContext();
@@ -63,14 +69,14 @@ export default function SignUpHome() {
       <Input
         placeholder="Street address"
         value={logradouro}
-        editable={false} 
+        editable={false}
         renderInput={() =>
           loading && <ActivityIndicator size="small" color="#000" />
         }
         keyboardType="number-pad"
       />
       <Input
-        placeholder="neighborhood"
+        placeholder="Neighborhood"
         value={bairro}
         editable={false}
         renderInput={() =>
@@ -113,45 +119,3 @@ export default function SignUpHome() {
     </ContentContainer>
   );
 }
-
-// Styled Components
-const ContentContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-`;
-
-const Title = styled.Text`
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: #333;
-`;
-
-const Subtitle = styled.Text`
-  width: 89%;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 25px;
-  color: #333;
-`;
-
-const Input = styled.TextInput`
-  width: 100%;
-  height: 70px;
-  padding: 12px;
-  font-weight: 700;
-  margin-top: 10px;
-  background-color: #fff;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-`;
-
-const Container = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;

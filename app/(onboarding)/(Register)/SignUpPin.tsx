@@ -1,10 +1,19 @@
 import { useState, useRef } from "react";
 import { TextInput } from "react-native";
-import styled from "styled-components/native";
 import CustomAppBar from "@/components/CustomAppBar";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { useSignUpContext } from "@/contexts/SignUpContext";
 import { router } from "expo-router";
+import {
+  ContentContainer,
+  Title,
+  Subtitle,
+  InputRow,
+  PinInput,
+  TextLinkStyled,
+  ButtonsContainer,
+  ViewButtons
+} from "././../../../styles/OnboardingStyles/RegisterStyles/SignUpPin"; 
 
 export default function SignUpPin() {
   const { updateUserData, saveToStorage } = useSignUpContext();
@@ -31,7 +40,7 @@ export default function SignUpPin() {
   const handleSubmitPin = (pin: string) => {
     updateUserData({ pin });
     saveToStorage();
-    router.navigate("/(onboarding)/(SignIn)/SignInHome")
+    router.navigate("/(onboarding)/(SignIn)/SignInHome");
   };
   
 
@@ -74,73 +83,3 @@ export default function SignUpPin() {
     </ContentContainer>
   );
 }
-
-// Styled Components
-const ContentContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  background-color: #fff;
-`;
-
-const Title = styled.Text`
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: #333;
-`;
-
-const Subtitle = styled.Text`
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  color: #333;
-`;
-
-const InputRow = styled.View`
-  flex-direction: row;
-  gap: 10px;
-  margin-top: 30px;
-`;
-
-const PinInput = styled.TextInput`
-  width: 56px;
-  height: 56px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  border-width: 2px;
-  border-color: #ccc;
-  border-radius: 16px;
-  background-color: #fff;
-`;
-
-const TextLinkStyled = styled.Text`
-  font-family: "DM Sans";
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  margin-left: 8px;
-  margin-top: 40px;
-  cursor: pointer;
-`;
-
-const ButtonsContainer = styled.View<{ marginTop?: number }>`
-  width: 91.66%;
-  margin-top: ${(props: any) => props.marginTop || 0}px;
-`;
-
-const ButtomSign = styled.TouchableOpacity`
-  width: 100%;
-  height: 64px;
-  border-radius: 12px;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-`;
-
-const ViewButtons = styled.View`
-  width: 100%;
-  padding: 20px 10px;
-  background-color: white;
-  align-items: center;
-`;

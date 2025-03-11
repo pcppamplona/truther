@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
-import { Text, Image, TextInput, View, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import styled from "styled-components/native";
 import useCountries, { Country } from "@/hooks/useCountries";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { router } from "expo-router";
 import { useSignUpContext } from "@/contexts/SignUpContext";
+import {
+  StyledScrollView,
+  ContentContainer,
+  Title,
+  SelectContainer,
+  CountryFlag,
+  Input,
+  PhoneInputContainer,
+  Container,
+  TextStyled,
+  TextLinkStyled,
+  TextContent,
+  TermsContainer,
+} from "./../../../styles/OnboardingStyles/RegisterStyles/SignUpTel";
 
 export default function SignUpTel() {
   const { updateUserData } = useSignUpContext();
@@ -107,105 +120,3 @@ export default function SignUpTel() {
     </StyledScrollView>
   );
 }
-
-// Styled Components
-const StyledScrollView = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-})`
-  flex: 1;
-  width: 100%;
-  background-color: #fff;
-`;
-
-const ContentContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  padding: 20px;
-`;
-
-const Title = styled.Text`
-  font-family: "DM Sans";
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 46px;
-  color: #12033a;
-  margin-top: 90px;
-`;
-
-const SelectContainer = styled.View`
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  margin-top: 40px;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-`;
-
-const CountryFlag = styled.View`
-  width: 42px;
-  height: 42px;
-  border-radius: 100%;
-  overflow: hidden;
-`;
-
-const Input = styled.TextInput`
-  width: 100%;
-  height: 70px;
-  padding: 12px;
-  font-weight: 700;
-  margin-top: 10px;
-  background-color: #fff;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-`;
-
-const PhoneInputContainer = styled.View`
-  flex-direction: row;
-  width: 100%;
-  margin-top: 20px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-`;
-
-const Container = styled.View`
-  width: 90%;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 16px;
-  margin-bottom: 40px;
-`;
-
-const TextStyled = styled.Text`
-  font-family: "DM Sans";
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  color: #12033a;
-  text-align: center;
-`;
-
-const TextLinkStyled = styled.Text`
-  font-family: "DM Sans";
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  color: #23ebc3;
-  margin-left: 8px;
-`;
-
-const TextContent = styled.Text`
-  font-family: "DM Sans";
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 24px;
-  color: #12033a;
-  margin-left: 8px;
-`;
-
-const TermsContainer = styled.View`
-  margin-top: 20px;
-  width: 80%;
-  align-items: center;
-  justify-content: center;
-`;
