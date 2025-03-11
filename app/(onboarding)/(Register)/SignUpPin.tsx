@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import CustomAppBar from "@/components/CustomAppBar";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import { useSignUpContext } from "@/contexts/SignUpContext";
+import { router } from "expo-router";
 
 export default function SignUpPin() {
   const { updateUserData, saveToStorage } = useSignUpContext();
@@ -30,6 +31,7 @@ export default function SignUpPin() {
   const handleSubmitPin = (pin: string) => {
     updateUserData({ pin });
     saveToStorage();
+    router.navigate("/(onboarding)/(SignIn)/SignInHome")
   };
   
 

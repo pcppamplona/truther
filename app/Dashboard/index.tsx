@@ -51,34 +51,29 @@ export default function Dashboard() {
           />
         ) : (
           <FlatList
-          data={filteredCoins}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <CoinItem
-              onPress={() =>
-                router.navigate({
-                  pathname: "/Dashboard/ItemCrypto",
-                  params: {
-                    id: item.id,
-                    coin: JSON.stringify(item), // Serializando o objeto coin
-                  },
-                })
-              }
-            >
-              <Image
-                source={{ uri: item.image }}
-                style={{ width: 42, height: 42 }}
-              />
-              <Col>
-                <CoinSymbol>{item.symbol.toUpperCase()}</CoinSymbol>
-                <CoinName>{item.name}</CoinName>
-              </Col>
-              <CoinName>{item.current_price}</CoinName>
-            </CoinItem>
-          )}
-        />
-        
-
+            data={filteredCoins}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <CoinItem
+                onPress={() =>
+                  router.navigate({
+                    pathname: "/Dashboard/ItemCrypto",
+                    params: { coin: JSON.stringify(item) }, // Serializando o objeto
+                  })
+                }
+              >
+                <Image
+                  source={{ uri: item.image }}
+                  style={{ width: 42, height: 42 }}
+                />
+                <Col>
+                  <CoinSymbol>{item.symbol.toUpperCase()}</CoinSymbol>
+                  <CoinName>{item.name}</CoinName>
+                </Col>
+                <CoinName>$ {item.current_price}</CoinName>
+              </CoinItem>
+            )}
+          />
         )}
       </ContentPage>
       <Container>
@@ -212,4 +207,3 @@ const Container = styled.View`
   right: 20px;
   elevation: 5;
 `;
-

@@ -1,7 +1,7 @@
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 
 import { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
@@ -27,11 +27,6 @@ export default function Splash() {
     setStatus(() => status);
   }
 
-  const handleImageLoad = async () => {
-    await SplashScreen.hideAsync();
-    router.replace("/HomeScreen"); 
-  };
-
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
@@ -46,13 +41,6 @@ export default function Splash() {
             shouldPlay
           />
         )}
-        {/* {videoError && (
-          <Image
-            style={StyleSheet.absoluteFill}
-            source={require("@/assets/images/splash.png")}
-            onLoad={handleImageLoad}
-          />
-        )} */}
       </View>
     </>
   );

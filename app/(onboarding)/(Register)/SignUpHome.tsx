@@ -17,16 +17,13 @@ export default function SignUpHome() {
   const [estado, setEstado] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Função para buscar o endereço via CEP
   const handleCepChange = async (inputCep: string) => {
     setCep(inputCep);
 
-    // Remover qualquer não número do CEP
     const unmaskCep = inputCep.replace(/\D/g, "");
 
-    // Verificar se o CEP tem o formato correto
     if (unmaskCep.length === 8) {
-      setLoading(true); // Iniciar o carregamento
+      setLoading(true);
 
       try {
         const addressData = await getAddressByCep(unmaskCep);
@@ -37,7 +34,7 @@ export default function SignUpHome() {
       } catch (error) {
         console.error("Erro ao buscar o CEP", error);
       } finally {
-        setLoading(false); // Finalizar o carregamento
+        setLoading(false);
       }
     }
   };
@@ -66,7 +63,7 @@ export default function SignUpHome() {
       <Input
         placeholder="Street address"
         value={logradouro}
-        editable={false} // Desabilitado enquanto estamos preenchendo automaticamente
+        editable={false} 
         renderInput={() =>
           loading && <ActivityIndicator size="small" color="#000" />
         }
@@ -100,9 +97,8 @@ export default function SignUpHome() {
 
       <Input
         placeholder="Apt/ Suite number"
-        editable={false}
+        editable={true}
         keyboardType="number-pad"
-
       />
 
       <Container>
